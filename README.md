@@ -1,9 +1,10 @@
 # NBA_Wager_138
 
 **VIEW AS CODE TO SEE BREAKDOWN**
+
+
 .py files are backend
 .js files are frontend 
-
 
 **Frontend Project Structure:**
 nba-betting-frontend/
