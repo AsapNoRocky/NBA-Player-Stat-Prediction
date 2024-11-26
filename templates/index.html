@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .input-container {
+            margin-bottom: 10px;
+        }
+
+        .output-container {
+            margin-top: 20px;
+        }
+
+        .output-box {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .green {
+            background-color: green;
+        }
+
+        .yellow {
+            background-color: yellow;
+            color: black;
+        }
+
+        .red {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>NBA Player Stat Prediction</h1>
+    <form id="predictForm">
+        <div class="input-container">
+            <label for="player">Player:</label>
+            <input type="text" id="player" required>
+        </div>
+        <div class="input-container">
+            <label for="stat">Stat:</label>
+            <select id="stat" required>
+                <option value="points">Points</option>
+                <option value="rebounds">Rebounds</option>
+                <option value="blocks">Blocks</option>
+                <option value="steals">Steals</option>
+                <option value="turnovers">Turnovers</option>
+            </select>
+        </div>
+        <div class="input-container">
+            <label for="operator">Condition:</label>
+            <select id="operator" required>
+                <option value=">">More Than</option>
+                <option value="<">Less Than</option>
+                <option value="=">Equal To</option>
+            </select>
+        </div>
+        <div class="input-container">
+            <label for="value">Value:</label>
+            <input type="number" id="value" required>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="output" class="output-container"></div>
+
+    <script>
+        document.getElementById("predictForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const player = document.getElementById("player").value;
+            const stat = document.getElementById("stat").value;
+            const operator = document.getElementById("operator").value;
+            const value = document.getElementById("value").value;
+
+            // Make the POST request
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ player, stat, operator, value })
+            });
+
+            const data = await response.json();
+
+            if (data.error) {
+                document.getElementById("output").innerHTML = `<div class="output-box red">${data.error}</div>`;
+            } else {
+                const colorClass = data.color_class;
+                const outputHTML = `
+                    <div class="output-box ${colorClass}">
+                        <h2>${data.player}'s ${data.stat} Prediction</h2>
+                        <p>Condition: ${data.condition}</p>
+                        <p>Prediction: ${data.prediction}</p>
+                        <p>${data.analysis}</p>
+                    </div>
+                `;
+                document.getElementById("output").innerHTML = outputHTML;
+            }
+        });
+    </script>
+</body>
+</html>
