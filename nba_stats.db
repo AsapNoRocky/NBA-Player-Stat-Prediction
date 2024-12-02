@@ -1,1 +1,8 @@
 
+This file is a SQLite database that stores data about NBA players' statistics. It is used by the Flask app to fetch player
+information and statistical data from the database to make predictions. The sqlite3.connect("nba_stats.db") function is used
+to establish a connection to the SQLite database. This is required to execute SQL queries that interact with the database.
+The connection is then used to execute SQL queries that fetch/manipulate data.
+After the query execution, the connection is closed with conn.close().
+
+sqlite3 nba_stats.db < setup_db.sql to update database from setup_db.sql 
