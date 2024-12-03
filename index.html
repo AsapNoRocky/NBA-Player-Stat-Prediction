@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA Player Stat Prediction</title>
+    <!-- Bootstrap CSS for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJrN+I9EN8B8+BYH4c6s5P5bxKeYxjdOp5ht/jSy8z1u3l4uZYyVrj2IYBzq" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7fa;
+            padding: 20px;
+        }
+        /* Heading styles */
+        h1 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        /* Output box styles */
+        .output-box {
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            color: white;
+            text-align: center;
+        }
+        /* Green box for positive results */
+        .green {
+            background-color: #28a745;
+        }
+        /* Yellow box for neutral results */
+        .yellow {
+            background-color: #ffc107;
+            color: black;
+        }
+        /* Red box for negative results */
+        .red {
+            background-color: #dc3545;
+        }
+        /* Game history Style */
+        .game-history {
+            margin-top: 20px;
+        }
+        /* Styles for game box */
+        .game-box {
+            background-color: #f8f9fa;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            color: black;
+        }
+        .game-box p {
+            margin: 0;
+        }
+        /* Clear button styles */
+        #clearBtn {
+            background-color: #f44336;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: auto;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        /* Darker red when on hover */
+        #clearBtn:hover {
+            background-color: #d32f2f; 
+        }
+    </style>
+</head>
+<body>
+    <h1>NBA Player Stat Prediction</h1><!-- Main Heading -->
+    <div class="form-container">
+        <form id="predictForm">
+            <!-- Player selection dropdown -->
+            <div class="mb-3">
+                <label for="player" class="form-label">Player:</label>
+                <select id="player" class="form-select" required>
+                    <option value="" disabled selected>Loading players...</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="stat" class="form-label">Stat:</label>
+                <select id="stat" class="form-select" required>
+                    <option value="points">Points</option>
+                    <option value="rebounds">Rebounds</option>
+                    <option value="blocks">Blocks</option>
+                    <option value="steals">Steals</option>
+                    <option value="turnovers">Turnovers</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="operator" class="form-label">Condition:</label>
+                <select id="operator" class="form-select" required>
+                    <option value=">">More Than</option>
+                    <option value="<">Less Than</option>
+                    <option value="=">Equal To</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="value" class="form-label">Value:</label>
+                <input type="number" id="value" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="start_date" class="form-label">Start Date:</label>
+                <input type="date" id="start_date" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="end_date" class="form-label">End Date:</label>
+                <input type="date" id="end_date" class="form-control">
+            </div>            
+            <button type="submit" class="btn btn-primary w-100">Submit</button>
+            <button type="button" id="clearBtn" class="w-100">Clear</button>
+        </form>
+    </div>
+    <!-- Display Output -->
+    <div id="output" class="output-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gyb+Knujsv4q9P7A5L1Q3I9OSkIWZ2ll6w5IYf9WnAFl3l+78ZG" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0xTL87O4F7a57l+WQm9B9n0zWsXrKqFde6gd53dukeWfU85k" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            try {
+                const response = await fetch('/players');
+                const data = await response.json();
+
+                if (data.players) {
+                    const playerDropdown = document.getElementById("player");
+                    playerDropdown.innerHTML = ""; // Clear existing options
+
+                    data.players.forEach(player => {
+                        const option = document.createElement("option");
+                        option.value = player;
+                        option.textContent = player;
+                        playerDropdown.appendChild(option);
+                    });
+                } else {
+                    console.error("Failed to fetch players.");
+                }
+            } catch (error) {
+                console.error("Error loading players:", error);
+            }
+        });
+
+        document.getElementById("predictForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            const player = document.getElementById("player").value;
+            const stat = document.getElementById("stat").value;
+            const operator = document.getElementById("operator").value;
+            const value = document.getElementById("value").value;
+            // Make the POST request
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ player, stat, operator, value })
+            });
+            const data = await response.json();
+            // If error, display in a red output box
+            if (data.error) {
+                document.getElementById("output").innerHTML = `<div class="output-box red">${data.error}</div>`;
+            } else {
+                const colorClass = data.color_class;
+                const outputHTML = `
+                    <div class="output-box ${colorClass}">
+                        <h3>${data.player}'s ${data.stat} Prediction</h3>
+                        <p><strong>Condition:</strong> ${data.condition}</p>
+                        <p><strong>Prediction:</strong> ${data.prediction}</p>
+                        <p>${data.analysis}</p>
+                        <div class="game-history">
+                            <h5>Last 5 Games:</h5>
+                            ${data.lastFiveGames.map(game => `
+                                <div class="game-box">
+                                    <p><strong>Game Date:</strong> ${game.game_date}</p>
+                                    <p><strong>${data.stat.charAt(0).toUpperCase() + data.stat.slice(1)}:</strong> ${game.value}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                document.getElementById("output").innerHTML = outputHTML;
+            }
+        });
+        // Clear button functionality
+        document.getElementById("clearBtn").addEventListener("click", function() {
+            document.getElementById("predictForm").reset();
+            document.getElementById("output").innerHTML = '';
+        });
+    </script>
+</body>
+</html>
