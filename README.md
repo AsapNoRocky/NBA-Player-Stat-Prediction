@@ -39,7 +39,7 @@ ___
 
 'python app.py' or 'python3 app.py'
 
-If the above does not work, you may need to run this command first to update the db: 'sqlite3 nba_stats.db < setup_db.sql'
+If the above does not work, you may need to run this command first to update the db: 'sqlite3 new_nba_stats.db < setup_db.sql'
 
 To test performance of indexing optimization, run:
 
