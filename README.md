@@ -6,9 +6,9 @@ Bryan Hui 014183026
 
 Sagar Kanda 012510329
 
-##CMPE 138 Project Abstract
+## CMPE 138 Project Abstract
 
-###Predictive Sports Betting
+### Predictive Sports Betting
 
 The objective of this project is to develop a predictive sports betting application using the
 NBA Dataset sourced from Kaggle public datasets and edited for the purpose of this application. The application will focus on analyzing
@@ -46,7 +46,7 @@ To test performance of indexing optimization, run:
 'python test_perf.py'
 ___
 
-###A Tentative Schedule (week by week)
+### A Tentative Schedule (week by week)
 Week of:
 11/5
 - Project Abstract
@@ -61,6 +61,6 @@ Week of:
 12/6
 - Project Demo Day
 
-###Replit
+### Replit
 
 https://replit.com/@sagar2kanda/NBAWagerApp
