@@ -31,11 +31,11 @@ Play-by-Play data in all. The dataset was edited to only include the top 10 NBA 
 for the purpose of this project. 
 
 ___
-To run app on web browser. Enter in console:
+To run the app on the web browser locally. Enter the following in the console otherwise fork a copy of the replit to test:
 
 'python app.py' or 'python3 app.py'
 
-If above does not work, you may need to run this command first to update the db: 'sqlite3 nba_stats.db < setup_db.sql'
+If the above does not work, you may need to run this command first to update the db: 'sqlite3 nba_stats.db < setup_db.sql'
 
 To test performance of indexing optimization, run:
 
