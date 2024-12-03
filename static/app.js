@@ -1,5 +1,3 @@
-app.js
-
 async function submitQuery() {
     // Retrieval of values
     const player = document.getElementById("player").value;
