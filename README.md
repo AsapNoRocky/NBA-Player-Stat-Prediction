@@ -1,9 +1,13 @@
 Lawrence Adug 014099709
+
 Javier Alonso Cardenas 015842567
+
 Bryan Hui 014183026
+
 Sagar Kanda 012510329
 
 CMPE 138 Project Abstract
+
 Predictive Sports Betting
 
 The objective of this project is to develop a predictive sports betting application using the
