@@ -35,7 +35,7 @@ Play-by-Play data in all. The dataset was edited to only include the top 10 NBA 
 for the purpose of this project. 
 
 ___
-To run the app on the web browser locally. Enter the following in the console otherwise fork a copy of the replit to test:
+## To run the app on the web browser locally. Enter the following in the console otherwise fork a copy of the replit to test:
 
 'python app.py' or 'python3 app.py'
 
