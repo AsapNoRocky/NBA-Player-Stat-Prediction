@@ -30,6 +30,12 @@ season), Box Scores for over 95% of all games and Play-by-Play game data with 13
 Play-by-Play data in all. The dataset was edited to only include the top 10 NBA players based off ESPN ratings
 for the purpose of this project. 
 
+To run app on web browser. Enter in console:
+'python app.py' or 'python3 app.py'
+If above does not work, you may need to run this command first to update the db: 'sqlite3 nba_stats.db < setup_db.sql'
+To test performance of indexing optimization, run:
+'python test_perf.py'
+
 A Tentative Schedule (week by week)
 Week of:
 11/5
