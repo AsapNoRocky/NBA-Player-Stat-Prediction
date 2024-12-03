@@ -7,8 +7,9 @@ CREATE TABLE IF NOT EXISTS player_stats (
     game_date DATE NOT NULL
 );
 
--- Create an index on the game_date column
+-- Create an index on the game_date and player/stat columns
 CREATE INDEX idx_game_date ON player_stats(game_date);
+CREATE INDEX idx_player_stat ON player_stats(player, stat);
 
 -- Inserting data for Players (last 5 games), seperated by stat line. 
 INSERT INTO player_stats (player, stat, value, game_date) VALUES
