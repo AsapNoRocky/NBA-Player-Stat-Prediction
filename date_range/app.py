@@ -29,12 +29,16 @@ def fetch_player_stats(player, stat, start_date=None, end_date=None):
     ORDER BY game_date DESC
     LIMIT 5;
     """
-    cursor.execute(query, (player, stat)) # Query with player and stat parameters
+    cursor.execute(query, params) # Query with player and stat parameters
     result = cursor.fetchall() # results
     conn.close() # close connection 
 
-    if len(result) < 5:
-        return {"error": f"Not enough data found for {player}, {stat}, and the given date range"}
+# If no date range specified, require at least 5 games
+    if not start_date and not end_date and len(result) < 5:
+        return {"error": f"Not enough data found for {player} and {stat}"}
+    # If date range specified, accept any number of games but warn if none found
+    elif (start_date or end_date) and len(result) == 0:
+        return {"error": f"No games found for {player} and {stat} in the specified date range"}
 
     return result
     

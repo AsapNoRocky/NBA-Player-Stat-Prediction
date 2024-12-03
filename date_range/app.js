@@ -23,7 +23,7 @@ async function submitQuery() {
         const response = await fetch('/predict', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ player, stat, operator, value })
+            body: JSON.stringify(payload)
         });
 
         const result = await response.json();

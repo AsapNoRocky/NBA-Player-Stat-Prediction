@@ -161,13 +161,15 @@
             const stat = document.getElementById("stat").value;
             const operator = document.getElementById("operator").value;
             const value = document.getElementById("value").value;
+            const start_date = document.getElementById("start_date").value;
+            const end_date = document.getElementById("end_date").value;
             // Make the POST request
             const response = await fetch('/predict', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ player, stat, operator, value })
+                body: JSON.stringify({ player, stat, operator, value, start_date, end_date })
             });
             const data = await response.json();
             // If error, display in a red output box
